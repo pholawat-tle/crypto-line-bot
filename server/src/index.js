@@ -18,6 +18,7 @@ app.use('/static', express.static(__dirname + '/public/'));
 const ChannelAccessToken = process.env.ChannelAccessToken;
 
 const mysql = require('mysql');
+const cron = require('node-cron');
 
 var con = mysql.createConnection({
     host: 'db',
@@ -31,14 +32,23 @@ con.connect(function (err) {
     console.log('Connected!');
 });
 
-app.post('/webhook', async (req, res) => {
+cron.schedule('*/10 * * * *', () => {
     con.query(
+        'UPDATE Person SET money = money*1.07 + 1000',
+        function (err, result) {
+            console.log(err || result);
+        }
+    );
+});
+
+app.post('/webhook', async (req, res) => {
+    await con.query(
         `SELECT * FROM Person WHERE userID='${req.body.events[0].source.userId}'`,
         function (err, result) {
             if (!err) {
                 if (result.length == 0) {
                     con.query(
-                        `INSERT INTO Person value ('${req.body.events[0].source.userId}',100)`
+                        `INSERT INTO Person value ('${req.body.events[0].source.userId}',10000)`
                     );
                 }
             } else {
@@ -62,6 +72,19 @@ app.post('/webhook', async (req, res) => {
                 ChannelAccessToken,
                 req.body.events[0].replyToken,
                 imgURL
+            );
+        } else if (command.toLowerCase() === 'coin') {
+            con.query(
+                `SELECT money FROM Person WHERE userID='${req.body.events[0].source.userId}'`,
+                function (err, result) {
+                    if (!err) {
+                        replyWithText(
+                            ChannelAccessToken,
+                            req.body.events[0].replyToken,
+                            result[0].money
+                        );
+                    }
+                }
             );
         }
     }
