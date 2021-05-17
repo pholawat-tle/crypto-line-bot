@@ -10,6 +10,8 @@ module.exports = {
             const [command, ...args] = commandWithArgs.split(' ');
             // console.log(command, args);
             return { command, args };
+        } else {
+            return { command: null, args: null };
         }
     },
     replyWithText: (access_token, reply_token, text) => {

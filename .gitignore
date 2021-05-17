@@ -3,3 +3,4 @@ pholawat.codes.chained.crt
 pholawat.codes.key
 **/src/public/*
 .env
+mysql-data

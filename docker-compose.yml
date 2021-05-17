@@ -16,3 +16,11 @@ services:
         volumes:
             - /app/node_modules
             - ./server/src:/app/src
+    db:
+        image: mysql:8.0.25
+        ports:
+            - '3306:3306'
+        volumes:
+            - ./mysql-data:/var/lib/mysql/
+        environment:
+            - MYSQL_ROOT_PASSWORD=Password
