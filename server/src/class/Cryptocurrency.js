@@ -7,7 +7,7 @@ module.exports = class Cryptocurrency {
     right;
 
     constructor(s) {
-        this.symbol = s;
+        this.symbol = s.toUpperCase();
         [this.left, this.right] = s.split('/');
     }
 
@@ -18,9 +18,11 @@ module.exports = class Cryptocurrency {
                     `https://api.binance.com/api/v3/ticker/price?symbol=${this.left}${this.right}`
                 )
                 .then((response) => {
-                    resolve(response.data);
+                    resolve(
+                        `ตอนนี้ ${response.data.symbol} แม่ง ${response.data.price} แล้วโว้ย`
+                    );
                 })
-                .catch((err) => resolve({}));
+                .catch(() => resolve('หาไม่เจอวะ'));
         });
     }
 
@@ -30,7 +32,7 @@ module.exports = class Cryptocurrency {
         await goToBN(browser, this.left, this.right, photoName).catch((err) =>
             console.log(err)
         );
-        return `http://pholawat.codes/api/static/${photoName}`;
+        return `https://pholawat.codes/api/static/${photoName}`;
     }
 
     toString() {

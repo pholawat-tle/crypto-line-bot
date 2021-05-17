@@ -1,3 +1,5 @@
 **/node_modules
 pholawat.codes.chained.crt
 pholawat.codes.key
+**/src/public/*
+.env

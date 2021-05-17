@@ -29,7 +29,7 @@ module.exports = {
         try {
             await page.click('.css-1wngn4j');
         } catch (error) {}
-
+        await new Promise((r) => setTimeout(r, 2000));
         await graph
             .screenshot({
                 path: __dirname + `/../public/${photoName}`,
