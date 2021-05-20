@@ -119,3 +119,9 @@ To get a local copy up and running follow these simple steps.
 | !graph \<symbol> | Get a screenshot of the chart from Binance API |
 
 _The screenshots of the chart are saved inside the server folder and each screenshot will be deleted after 24 hours_
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+
